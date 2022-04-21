@@ -127,11 +127,12 @@ array([[160, 164, 169, ..., 185, 184, 183],
 `img = cv2.merge((b,g,r))`
 
 #### 只保留R(其余通道置为0)
+```python
 cur_img = img.copy()
 cur_img[:,:,0] = 0
 cur_img[:,:,1] = 0
 cv_show('R',cur_img)
-
+```
 
 #### 边界填充(周围扩大一圈)
 ```python
