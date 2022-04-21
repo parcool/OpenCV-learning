@@ -996,3 +996,44 @@ plt.show()
 ```
 执行结果：
 <img src="http://img.yibogame.com/uPic/2022-04-21-21-16-25-1650546985689-image-20220421211625558.png" alt="image-20220421211625558" style="zoom:45%;" />
+
+#### 直方图均衡化
+
+<img src="http://img.yibogame.com/uPic/2022-04-21-21-28-21-1650547701425-hist_2.png" alt="hist_2" style="zoom:80%;" />
+
+<img src="http://img.yibogame.com/uPic/2022-04-21-21-28-42-1650547722989-hist_3.png" alt="hist_3" style="zoom:80%;" />
+
+<img src="http://img.yibogame.com/uPic/2022-04-21-21-28-53-1650547733064-hist_4.png" alt="hist_4" style="zoom:80%;" />
+
+```py
+img = cv2.imread('res/clahe.jpg', 0)  # 0表示灰度图 #clahe
+plt.hist(img.ravel(), 256)
+plt.show()
+
+equ = cv2.equalizeHist(img)	# 直方图均衡化
+plt.hist(equ.ravel(), 256)
+plt.show()
+
+res = np.hstack((img, equ))
+util.cv_show(res, 'res')
+```
+
+运行后结果：
+<img src="http://img.yibogame.com/uPic/2022-04-21-21-38-03-1650548283452-image-20220421213803331.png" alt="image-20220421213803331" style="zoom:35%;" />
+<img src="http://img.yibogame.com/uPic/2022-04-21-21-38-23-1650548303899-image-20220421213823799.png" alt="image-20220421213823799" style="zoom:35%;" />
+<img src="http://img.yibogame.com/uPic/2022-04-21-21-38-42-1650548322047-image-20220421213841917.png" alt="image-20220421213841917" style="zoom:35%;" />
+
+#### 自适应直方图均衡化
+
+```py
+img = cv2.imread('res/clahe.jpg', 0)  # 0表示灰度图 #clahe
+
+clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))  # 自适应均衡化，根据创建的小格子分别做均衡化(tileGridSize参数)
+res_clahe = clahe.apply(img)
+
+equ = cv2.equalizeHist(img)
+res = np.hstack((img, equ, res_clahe))
+util.cv_show(res, 'res')
+```
+
+<img src="http://img.yibogame.com/uPic/2022-04-21-21-45-48-1650548748027-image-20220421214547876.png" alt="image-20220421214547876" style="zoom:50%;" />
