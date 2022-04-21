@@ -701,6 +701,7 @@ util.cv_show(res, 'res')
 	
 	* 向上采样方法（放大，越采样大小越大）
 	<img src="http://img.yibogame.com/uPic/2022-04-20-16-40-37-1650444037202-Pyramid_3.png" alt="Pyramid_3" style="zoom:50%;" />
+	
 	```python
   img = cv2.imread("res/AM.png")
   util.cv_show(img, 'img')
