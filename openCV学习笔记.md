@@ -1037,3 +1037,76 @@ util.cv_show(res, 'res')
 ```
 
 <img src="http://img.yibogame.com/uPic/2022-04-21-21-45-48-1650548748027-image-20220421214547876.png" alt="image-20220421214547876" style="zoom:50%;" />
+
+#### 傅里叶变换
+
+傅里叶变换是什么？
+<img src="http://img.yibogame.com/uPic/2022-04-21-21-53-33-1650549213356-4695ce06197677bab880cd55b6846f12_1440w.jpg" alt="img" style="zoom: 67%;" />
+
+[知乎]: https://zhuanlan.zhihu.com/p/19763358	"傅里叶分析之掐死教程（完整版）更新于2014.06.06"
+
+傅里叶变换有什么作用？
+* 高频：变化剧烈的灰度分量，例如边界
+* 低频：变化缓慢的灰度分量，例如一片大海
+
+#### 滤波
+* 低通滤波器：只保留低频，会使得图像模糊
+* 高通滤波器：只保留高频，会使得图像细节增强
+
+opencv中主要就是cv2.dft()和cv2.idft()，输入图像需要先转换成np.float32 格式。
+得到的结果中频率为0的部分会在左上角，通常要转换到中心位置，可以通过shift变换来实现。
+cv2.dft()返回的结果是双通道的（实部，虚部），通常还需要转换成图像格式才能展示（0,255）。
+```python
+img = cv2.imread('res/lena.jpg', 0)
+
+img_float32 = np.float32(img)
+
+dft = cv2.dft(img_float32, flags=cv2.DFT_COMPLEX_OUTPUT)
+dft_shift = np.fft.fftshift(dft) # 将低频的值从左上角转换到中心位置
+	# 得到灰度图能表示的形式
+magnitude_spectrum = 20 * np.log(cv2.magnitude(dft_shift[:, :, 0], dft_shift[:, :, 1]))
+
+plt.subplot(121), plt.imshow(img, cmap='gray')
+plt.title('Input Image'), plt.xticks([]), plt.yticks([])
+plt.subplot(122), plt.imshow(magnitude_spectrum, cmap='gray')
+plt.title('Magnitude Spectrum'), plt.xticks([]), plt.yticks([])
+plt.show()
+```
+
+<img src="http://img.yibogame.com/uPic/2022-04-21-22-01-20-1650549680927-image-20220421220120808.png" alt="image-20220421220120808" style="zoom:45%;" />
+
+```python
+img = cv2.imread('res/lena.jpg', 0)
+
+img_float32 = np.float32(img)
+
+dft = cv2.dft(img_float32, flags=cv2.DFT_COMPLEX_OUTPUT)
+dft_shift = np.fft.fftshift(dft)	# 从左上角变换移动到中间
+
+rows, cols = img.shape
+crow, ccol = int(rows / 2), int(cols / 2)  # 中心位置
+
+	# 低通滤波
+mask = np.zeros((rows, cols, 2), np.uint8)	# 0是需要保留的，其余的地方仍掉
+mask[crow - 30:crow + 30, ccol - 30:ccol + 30] = 1
+	# 高通滤波
+  # mask = np.ones((rows, cols, 2), np.uint8)
+	# mask[crow - 30:crow + 30, ccol - 30:ccol + 30] = 0
+
+	# IDFT
+fshift = dft_shift * mask
+f_ishift = np.fft.ifftshift(fshift)	# 还原到左上角
+img_back = cv2.idft(f_ishift)	# 再做逆变换处理为图像（这个图像仅仅是实部与虚部的，无法直接看）
+img_back = cv2.magnitude(img_back[:, :, 0], img_back[:, :, 1])	# 把实部与虚部的图像转为普通图片
+
+plt.subplot(121), plt.imshow(img, cmap='gray')
+plt.title('Input Image'), plt.xticks([]), plt.yticks([])
+plt.subplot(122), plt.imshow(img_back, cmap='gray')
+plt.title('Result'), plt.xticks([]), plt.yticks([])
+
+plt.show()
+```
+低通滤波后结果：
+<img src="http://img.yibogame.com/uPic/2022-04-21-22-07-57-1650550077628-image-20220421220757507.png" alt="image-20220421220757507" style="zoom:50%;" />
+高通滤波后结果：
+<img src="http://img.yibogame.com/uPic/2022-04-21-22-16-00-1650550560435-image-20220421221600314.png" alt="image-20220421221600314" style="zoom:50%;" />
