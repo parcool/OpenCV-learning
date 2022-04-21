@@ -146,6 +146,7 @@ wrap = cv2.copyMakeBorder(img, top_size, bottom_size, left_size, right_size, cv2
 constant = cv2.copyMakeBorder(img, top_size, bottom_size, left_size, right_size,cv2.BORDER_CONSTANT, value=0)
 ```
 <img src="http://img.yibogame.com/uPic/2022-04-18-21-54-56-1650290096178-2022-04-18-18-58-55-1650279535945-output.png" alt="image-20220418205212143" />
+
 `BORDER_REPLICATE`：复制法，也就是复制最边缘像素。
 `BORDER_REFLECT`：反射法，对感兴趣的图像中的像素在两边进行复制例如：fedcba|abcdefgh|hgfedcb
 `BORDER_REFLECT_101`：反射法，也就是以最边缘像素为轴，对称，gfedcb|abcdefgh|gfedcba
