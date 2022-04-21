@@ -714,12 +714,15 @@ util.cv_show(res, 'res')
 	util.cv_show(down, 'down')
 	print(down.shape)
 	```
+	
 	输出：
-	```
+
+	```python
 	(442, 340, 3)
 	(884, 680, 3)
 	(221, 170, 3)
 	```
+	
 * 拉普拉斯金字塔
 	<img src="http://img.yibogame.com/uPic/2022-04-20-16-55-05-1650444905788-Pyramid_4.png" alt="Pyramid_4" style="zoom:50%;" />
 	G0、Gi：原始输入图像。
