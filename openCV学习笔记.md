@@ -761,10 +761,13 @@ util.cv_show(res, 'res')
 
   <img src="http://img.yibogame.com/uPic/2022-04-21-12-06-59-1650514019853-image-20220421120659726.png" alt="image-20220421120659726" style="zoom:30%;" />
   2. 找到轮廓
+
   ```python
   contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
   ```
+  
   3. 传入绘制图像，轮廓，轮廓索引，颜色模式，线条厚度
+
   ```python
     #注意需要copy,要不原图会变。。。
     draw_img = img.copy()
@@ -772,14 +775,17 @@ util.cv_show(res, 'res')
     res = cv2.drawContours(draw_img, contours, -1, (0, 0, 255), 2)
     util.cv_show(res, 'res')
   ```
+  
   <img src="http://img.yibogame.com/uPic/2022-04-21-12-10-57-1650514257367-image-20220421121057257.png" alt="image-20220421121057257" style="zoom: 30%;" />
   4. 只画指定的某个轮廓
+
   ```python
   draw_img = img.copy()
   #第一个参数0表示第0个轮廓
   res = cv2.drawContours(draw_img, contours, 0, (0, 0, 255), 2)
   util.cv_show(res, 'res')
   ```
+  
   <img src="http://img.yibogame.com/uPic/2022-04-21-12-13-01-1650514381412-image-20220421121301300.png" alt="image-20220421121301300" style="zoom:30%;" />
   
 
