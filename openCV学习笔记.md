@@ -962,6 +962,7 @@ plt.show()
 ```
 
 <img src="http://img.yibogame.com/uPic/2022-04-21-21-05-22-1650546322852-image-20220421210522734.png" alt="image-20220421210522734" style="zoom:35%;" />
+
 ```python
 img = cv2.imread('res/cat.jpg')
 color = ('b', 'g', 'r')
